@@ -5,8 +5,8 @@ function Posteos(props) {
     console.log(props);
     return (
         <View style={styles.posteos}>
-            <Text>{props.data[0].id}</Text>
-            <Text>{props.data[0].title}</Text>
+            <Text>{props.data.id}</Text>
+            <Text>{props.data.title}</Text>
         </View>
     )
 }

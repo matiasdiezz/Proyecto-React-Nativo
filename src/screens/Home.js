@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {View, StyleSheet, Text, Button, TouchableOpacity, FlatList} from 'react-native';
 import { auth,db } from '../firebase/config';
-import Posteos from '../components/Posteos';
+import Posteo from '../components/Posteo';
 
 
 class Home extends Component {
@@ -40,7 +40,7 @@ class Home extends Component {
             <FlatList 
             data={this.state.posteos}
             keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => <Posteos data={this.state.posteos}/>} 
+            renderItem={({item}) => <Posteo data={item}/>} 
             />
             <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
                 <Text style={styles.buttonText}>Log out</Text>
