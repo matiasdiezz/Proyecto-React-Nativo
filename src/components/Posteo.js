@@ -1,26 +1,33 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 
 function Posteos(props) {
     console.log(props);
     return (
-        <View style={styles.posteos}>
-            <Text>{props.data.id}</Text>
-            <Text>{props.data.title}</Text>
+        <View style={styles.container}>
+            <Text>{props.data.data.title}</Text>
+            <Image style={styles.imagen} source={props.data.data.foto}></Image>
         </View>
     )
 }
 
 
 const styles = StyleSheet.create({
-    posteos: {
+    container:{
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        border: 1,
-        borderColor: '#000',
+        borderRadius: 10,
+        borderColor: '#00ADB5',
+        borderWidth: 1, 
+        margin: 10,
+        marginBottom: 10,
     },
+    imagen: {
+        width: '50%',
+        height: '200px',
+    }
 
 })
 
