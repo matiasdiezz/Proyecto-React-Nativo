@@ -5,8 +5,8 @@ function Posteos(props) {
     console.log(props);
     return (
         <View style={styles.posteos}>
-            <Text>{props.data.id}</Text>
-            <Text>{props.data.title}</Text>
+            <Text style={styles.title}>{props.data.data.title}</Text>
+            <Text >{props.data.id}</Text>
         </View>
     )
 }
@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
         border: 1,
         borderColor: '#000',
     },
+    title:{
+        color: "red",
+        
+    }
 
 })
 
