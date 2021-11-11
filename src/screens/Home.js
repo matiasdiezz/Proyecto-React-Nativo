@@ -14,20 +14,10 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        db.collection('posts').onSnapshot(
-            docs =>{
-             let posts = [];
-             docs.forEach( doc => {
-            posts.push({
-            id: doc.id,
-            data: doc.data()
-            })
-             this.setState({
-            posteos: posts,
-            loading: false
-             })})}
-        )
+        this.showposts();
     }
+
+    
             
     render() {
         console.log(this.state.posteos);
@@ -40,9 +30,7 @@ class Home extends Component {
             keyExtractor={item => item.id.toString()}
             renderItem={({item}) => <Posteo data={item}/>} 
             />
-            <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
-                <Text style={styles.textButton}>Log out</Text>
-            </TouchableOpacity>
+            
             </>
         );
     }
