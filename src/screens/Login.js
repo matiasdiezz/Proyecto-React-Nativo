@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import {View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
 
 class Login extends Component {
+  navigateToRegister = () => {
+    this.props.screenProps.navigation.navigate('Register');
+  }
             render() {
                 return (
               <View 
@@ -28,10 +31,13 @@ class Login extends Component {
                 >
                   <Text style={styles.textButton}>Loggear</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={()=> this.navigateToRegister}>
+                  <Text style={styles.textButton}>Registrarse</Text>
+                </TouchableOpacity>
               </View>
                 );
             }
-        }
+          }
         
         const styles = StyleSheet.create({
           container: {

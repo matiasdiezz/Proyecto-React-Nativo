@@ -75,7 +75,7 @@ class Menu extends Component {
                 </Drawer.Navigator>
                 ) : (
                 <Drawer.Navigator>
-                    <Drawer.Screen options={{title: 'Login'}} name="Login" component={()=><Login login={(email,pass)=>this.login(email,pass)}/>} />
+                    <Drawer.Screen options={{title: 'Login'}} name="Login" component={(screenProps)=><Login login={(email,pass)=>this.login(email,pass)} screenProps={screenProps}/>} />
                     <Drawer.Screen options={{title: 'Register'}} name="Register" component={()=><Register register={(email,pass)=>this.register(email,pass)} />} />
                 </Drawer.Navigator>
                 )}

@@ -14,7 +14,11 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        db.collection('posts').onSnapshot(
+        this.showposts();
+    }
+
+    showposts(){
+        db.collection('posts').where('user','==', auth.currentUser.email).onSnapshot(
             docs =>{
              let posts = [];
              docs.forEach( doc => {
@@ -27,7 +31,7 @@ class Home extends Component {
             loading: false
              })})}
         )
-    }
+            }
             
     render() {
         console.log(this.state.posteos);
