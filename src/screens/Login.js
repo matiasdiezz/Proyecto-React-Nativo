@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import {View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+       
+    };
+}
   navigateToRegister = () => {
     this.props.screenProps.navigation.navigate('Register');
   }
@@ -31,7 +37,7 @@ class Login extends Component {
                 >
                   <Text style={styles.textButton}>Loggear</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={()=> this.navigateToRegister}>
+                <TouchableOpacity style={styles.button} onPress={()=> this.navigateToRegister()}>
                   <Text style={styles.textButton}>Registrarse</Text>
                 </TouchableOpacity>
               </View>
