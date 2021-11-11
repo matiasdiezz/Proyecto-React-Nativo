@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import Mycamera from '../components/MyCamera';
 import { auth,db } from '../firebase/config';
 
 export class Formulario extends Component {
@@ -8,8 +9,10 @@ export class Formulario extends Component {
         this.state = { 
             Title: '',
             description: '',
+            showCamera: false,
          }
     }
+
     submitForm = () => {
         db.collection('posts').add({
             user: auth.currentUser.email,
@@ -17,7 +20,8 @@ export class Formulario extends Component {
             title: this.state.Title,
             createdAt: Date.now(),
             likes:[],
-            comments:[]
+            comments:[],
+            foto: this.state.url
             })
             .then(()=>{
                 this.setState({
@@ -28,12 +32,21 @@ export class Formulario extends Component {
             )
             .catch( e => console.log(e))
     }
-
-
+    showCamera = () => {
+        this.setState({
+            showCamera: true
+        })
+    }
+    onImageUpload(url){
+        this.setState({
+            url: url,
+            showCamera: false,
+        })
+    }
     render() {
         return (
-           
-                 <View style={styles.container}>
+           this.state.showCamera ? <Mycamera onImageUpload={(url)=>this.onImageUpload(url)}/> :
+            <View style={styles.container}>
                 <Text>Forms</Text>
                 <TextInput
                     placeholder="Nombre"
@@ -47,11 +60,19 @@ export class Formulario extends Component {
                     value={this.state.description}
                     style={styles.input}
                 />
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={()=> this.showCamera()}
+                >
+                    <Text style={styles.textButton}>
+                        Subir Foto
+                    </Text>
+                </TouchableOpacity>
                 
                 <TouchableOpacity
                     style={styles.button}
                     onPress={this.submitForm}
-                    >
+                >
                 <Text style={styles.textButton}>Enviar</Text>
                 </TouchableOpacity>
             </View>
@@ -67,22 +88,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
+        width: 300,
+        height: 44,
+        padding: 10,
         borderWidth: 1,
-        borderColor: '#000',
-        width: '90%',
+        borderColor: '#00ADB5',
         marginBottom: 10,
-        padding: 10,
-    },
+        borderRadius: 5,
+        textAlign: 'center',
+      },
     button: {
-        backgroundColor: '#000',
+        backgroundColor: '#00ADB5',
         padding: 10,
-        marginTop: 10,
+        margin: 10,
+        borderRadius: 5,
+        width:'50%',
+
     },
     textButton: {
         color: '#fff',
         textAlign: 'center',
-    }
-
+        fontWeight: 'bold',
+    },
 })
 
 export default Formulario
