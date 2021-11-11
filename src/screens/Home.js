@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {View, StyleSheet, Text, Button, TouchableOpacity, FlatList} from 'react-native';
 import { auth,db } from '../firebase/config';
-import Posteos from '../components/Posteos';
+import Posteo from '../components/Posteo';
 
 
 class Home extends Component {
@@ -34,16 +34,14 @@ class Home extends Component {
     console.log(this.props.userData);
         return (
             <>
-            <View style={styles.container}>
-                <Text>Hola {this.props.userData.email}</Text>
-            </View>
-            <FlatList 
+            <FlatList
+            style={styles.list} 
             data={this.state.posteos}
             keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => <Posteos data={this.state.posteos}/>} 
+            renderItem={({item}) => <Posteo data={item}/>} 
             />
             <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
-                <Text style={styles.buttonText}>Log out</Text>
+                <Text style={styles.textButton}>Log out</Text>
             </TouchableOpacity>
             </>
         );
@@ -60,17 +58,20 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     button: {
-        backgroundColor: '#00bfff',
+        backgroundColor: '#00ADB5',
         padding: 10,
-        margin: 20,
+        margin: 10,
+        borderRadius: 5,
+    },
+    textButton: {
+        color: '#fff',
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
+    list: {
         width: '100%',
-        alignItems: 'center',
-        borderRadius: 10,
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 20,
-    },
+        height: '100%',
+    }
 })
 
 
