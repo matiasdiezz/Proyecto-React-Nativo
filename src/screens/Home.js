@@ -5,20 +5,42 @@ import Posteo from '../components/Posteo';
 
 
 class Home extends Component {
+
+    
     constructor(props) {
         super(props);
         this.state = {
             posteos: [],
             loading: true,
         };
+
     }
 
+    showposts(){
+        db.collection('posts').onSnapshot(
+            docs =>{
+             let posts = [];
+             docs.forEach( doc => {
+            posts.push({
+            id: doc.id,
+            data: doc.data()
+            })
+             this.setState({
+            posteos: posts,
+            loading: false
+             })})}
+        )
+            }
+        
+
+    
+            
     componentDidMount() {
         this.showposts();
     }
 
     
-            
+    
     render() {
         console.log(this.state.posteos);
     console.log(this.props.userData);

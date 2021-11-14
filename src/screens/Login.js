@@ -37,8 +37,8 @@ class Login extends Component {
                 >
                   <Text style={styles.textButton}>Loggear</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={()=> this.navigateToRegister()}>
-                  <Text style={styles.textButton}>Registrarse</Text>
+                <TouchableOpacity style={styles.buttonRegister} onPress={()=> this.navigateToRegister()}>
+                  <Text style={styles.textButtonRegister}>Si no tenes cuenta, Registrarse</Text>
                 </TouchableOpacity>
               </View>
                 );
@@ -64,11 +64,27 @@ class Login extends Component {
                 margin: 10,
                 borderRadius: 5,
             },
+            buttonRegister: {
+              backgroundColor: '#303841',
+              padding: 10,
+              margin: 10,
+              borderRadius: 5,
+              
+
+          },
             textButton: {
                 color: '#fff',
                 textAlign: 'center',
                 fontWeight: 'bold',
+                fontSize: 20,
             },
+            textButtonRegister: {
+              color: '#fff',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: 12,
+          },
+             
             input: {
               width: 300,
               height: 44,

@@ -21,16 +21,17 @@ class Menu extends Component {
             userData: [],
         }
     }
-    register(email, password) {
+    register(email, password, username) {
         auth
           .createUserWithEmailAndPassword(email, password)
-          .then((response) => {
-              console.log(response);
-              this.setState({ logged: true,
-                userData: response
-              })
+          .then(() => {
+
+            auth.currentUser.updateProfile({
+                  displayName: username})
+              .then(()=>{
+              this.setState({ logged: true,              })
           })
-                                    
+        })                    
           .catch((err) => console.log(err));
       }
 
@@ -65,6 +66,7 @@ class Menu extends Component {
         })
     }
 
+
     
 
     render() {
@@ -73,7 +75,7 @@ class Menu extends Component {
                 {this.state.logged ? (
                 <Drawer.Navigator>
                     <Drawer.Screen options={{title: 'Profile'}} name="Profile" component={()=><Profile userData={this.state.userData} logOut={()=>this.logout()}/>} />
-                    <Drawer.Screen options={{title: 'Home'}} name="Home" component={()=><Home userData={this.state.userData}/>} />
+                    <Drawer.Screen options={{title: 'Home'}} name="Home" component={()=><Home userData={this.state.userData}  showPost={()=>this.showPost()} />} />
                     <Drawer.Screen options={{title:'Subir Post'}} name="Subir Post" component={()=><Formulario/>} />
                 </Drawer.Navigator>
                 ) : (

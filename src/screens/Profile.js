@@ -18,9 +18,10 @@ class Profile extends Component {
         )
             }
     render() {
+        console.log(this.props.userData)
         return (
             <View>
-                <Text> Tu perfil </Text>
+                <Text> {this.props.userData.displayName} </Text>
                 <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
                 <Text style={styles.textButton}>Log out</Text>
             </TouchableOpacity>
