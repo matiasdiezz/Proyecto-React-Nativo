@@ -8,7 +8,7 @@ class Register extends Component {
         this.state = {
           email: "",
           password: "",
-          username: ""
+          username: "",
         };
     }
     
@@ -29,11 +29,10 @@ class Register extends Component {
                 secureTextEntry={true}
                 style={styles.input}
               />
-                 <TextInput
+              <TextInput
                 onChangeText={(text) => this.setState({ username: text })}
                 placeholder="username"
                 keyboardType="email-address"
-                secureTextEntry={false}
                 style={styles.input}
               />
               <TouchableOpacity

@@ -13,6 +13,8 @@ export class Formulario extends Component {
          }
     }
 
+    // Metodo para subir la foto a firebase
+    
     submitForm = () => {
         db.collection('posts').add({
             user: auth.currentUser.email,
@@ -32,11 +34,17 @@ export class Formulario extends Component {
             )
             .catch( e => console.log(e))
     }
+
+    //Mostrar la camara
+    
     showCamera = () => {
         this.setState({
             showCamera: true
         })
     }
+
+    // Cambiar el estado cuando esta subida la foto
+
     onImageUpload(url){
         this.setState({
             url: url,
@@ -60,21 +68,26 @@ export class Formulario extends Component {
                     value={this.state.description}
                     style={styles.input}
                 />
+                {/* When theres a photo the button changes color */}
                 <TouchableOpacity
-                    style={styles.button}
+                    style={styles.button, this.state.url ? styles.buttonActive : styles.button}
                     onPress={()=> this.showCamera()}
                 >
                     <Text style={styles.textButton}>
                         Subir Foto
                     </Text>
                 </TouchableOpacity>
-                
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={this.submitForm}
-                >
-                <Text style={styles.textButton}>Enviar</Text>
-                </TouchableOpacity>
+                {this.state.url ?
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={()=> this.submitForm()}
+                    >
+                        <Text style={styles.textButton}>
+                            Subir Post
+                        </Text>
+                    </TouchableOpacity>
+                    : null
+                }
             </View>
         )
     }
@@ -103,8 +116,14 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 5,
         width:'50%',
-
     },
+    buttonActive: {
+        backgroundColor: '#393E46',
+        padding: 10,
+        margin: 10,
+        borderRadius: 5,
+        width:'50%',
+    },  
     textButton: {
         color: '#fff',
         textAlign: 'center',

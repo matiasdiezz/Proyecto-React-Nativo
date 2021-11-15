@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, TouchableOpacity, FlatList} from 'react-native'
-import Posteo from "../components/Posteo"
 import { auth,db } from '../firebase/config';
-import Posteos from "../components/Posteos"
+import Posteo from "../components/Posteo"
 
 
 class Profile extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +15,7 @@ class Profile extends Component {
     }
 
     showposts(){
-        db.collection('posts').onSnapshot(
+        db.collection('posts').where('user','==', auth.currentUser.email).onSnapshot(
             docs =>{
              let posts = [];
              docs.forEach( doc => {
@@ -30,7 +28,11 @@ class Profile extends Component {
             loading: false
              })})}
         )
-            }
+    }
+
+    componentDidMount(){
+        this.showposts();
+    }
         
             
     render() {

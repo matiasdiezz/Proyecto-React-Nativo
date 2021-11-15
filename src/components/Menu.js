@@ -21,6 +21,9 @@ class Menu extends Component {
             userData: [],
         }
     }
+
+    //Register
+    
     register(email, password, username) {
         auth
           .createUserWithEmailAndPassword(email, password)
@@ -35,6 +38,8 @@ class Menu extends Component {
         })                    
           .catch((err) => console.log(err));
       }
+    
+    //Login
 
     login(email, password) {
     auth
@@ -44,15 +49,17 @@ class Menu extends Component {
         this.setState({ logged: true,
           userData: response
         })
-    })
-                            
+    })                       
     .catch((err) => console.log(err));
     }
+
+    //Logout
 
     logout() {
         auth.signOut()
     }
 
+    //Did Mount
     componentDidMount() {
         auth.onAuthStateChanged(user => {
             if (user) {
