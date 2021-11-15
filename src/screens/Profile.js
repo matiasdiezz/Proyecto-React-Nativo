@@ -1,9 +1,23 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity} from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity, FlatList} from 'react-native'
+import Posteo from "../components/Posteo"
+import { auth,db } from '../firebase/config';
+import Posteos from "../components/Posteos"
+
 
 class Profile extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            posteos: [],
+            loading: true,
+        };
+
+    }
+
     showposts(){
-        db.collection('posts').where('user','==', auth.currentUser.email).onSnapshot(
+        db.collection('posts').onSnapshot(
             docs =>{
              let posts = [];
              docs.forEach( doc => {
@@ -17,11 +31,20 @@ class Profile extends Component {
              })})}
         )
             }
+        
+            
     render() {
+
         console.log(this.props.userData)
         return (
             <View>
                 <Text> {this.props.userData.displayName} </Text>
+                <FlatList
+            style={styles.list} 
+            data={this.state.posteos}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => <Posteo data={item}/>} 
+            />
                 <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
                 <Text style={styles.textButton}>Log out</Text>
             </TouchableOpacity>
@@ -49,6 +72,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
     },
+    list: {
+        width: '100%',
+        height: '100%',
+    }
 })
 
 

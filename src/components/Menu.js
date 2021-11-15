@@ -24,13 +24,14 @@ class Menu extends Component {
     register(email, password, username) {
         auth
           .createUserWithEmailAndPassword(email, password)
-          .then(() => {
-
-            auth.currentUser.updateProfile({
-                  displayName: username})
-              .then(()=>{
-              this.setState({ logged: true,              })
-          })
+          .then((response) => {
+            console.log(response);
+            console.log(username);
+            response.user.updateProfile({
+                displayName: username})
+            .then(()=>{
+            this.setState({ logged: true})
+        })
         })                    
           .catch((err) => console.log(err));
       }
