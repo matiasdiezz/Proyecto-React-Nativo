@@ -10,6 +10,7 @@ class Posteos extends Component {
         this.state = {
             likes: 0,
             liked: false,
+            showModal: false,
         }
     }
     
@@ -68,6 +69,35 @@ dislike() {
             console.error("Error updating document: ", error); 
         });
     }
+    openModal() {
+        this.setState({
+            showModal: true
+        })
+    }
+
+    closeModal() {
+        this.setState({
+            showModal: false
+        })
+    }
+
+    guardarComentario(){
+        console.log('Guardando comentario...');
+        let oneComment = {
+            createdAt: Date.now(),
+            author: auth.currentUser.email,
+            comment: this.state.comment, 
+        }
+         db.collection('posts').doc(this.props.postData.id).update({
+           comments:firebase.firestore.FieldValue.arrayUnion(oneComment)
+        })
+        .then(()=>{
+            this.setState({
+                showModal:false,
+                comment:''
+            })
+        }
+        )}
 
 
     
@@ -98,6 +128,46 @@ dislike() {
         
                         </TouchableOpacity>
                 }
+                {/* Modal para comentarios */}
+            {   this.state.showModal ?
+                <Modal style={styles.modalContainer}
+                    visible={this.state.showModal}
+                    animationType='slide'
+                    transparent={false}
+                >   
+                    <TouchableOpacity onPress={()=>this.hideModal()}>
+                        <Text style={styles.closeButton}>X</Text>
+                    </TouchableOpacity> 
+
+                    <FlatList
+                        data={this.props.postData.data.comments}
+                        keyExtractor={comment=>comment.createdAt.toString()}
+                        renderItem={({item})=>(
+                                <Text>{item.author}: {item.comment}</Text> 
+                        )}
+
+                    />
+
+                    {/* Formulario para nuevo comentarios */}
+                    <View>
+                        <TextInput 
+                            style={styles.input}
+                        placeholder="Comentar..."
+                            keyboardType="default"
+                            multiline
+                            onChangeText={text => this.setState({comment: text})}
+                            value={this.state.comment}
+                        />
+                        <TouchableOpacity 
+                        style={styles.button}
+                        onPress={()=>{this.guardarComentario()}}>
+                            <Text style={styles.buttonText}>Guadar comentario</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </Modal>    :
+                <Text></Text>
+            } 
                 </View>
         </View>
     )
@@ -133,7 +203,27 @@ const styles = StyleSheet.create({
     },
     likes:{
         flexDirection: "row",
-    }
+    },
+    modalContainer:{
+        width:'97%',
+        borderRadius:4,
+        padding:5,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        boxShadow: 'rgb(204 204 204 ) 0px 0px 9px 7px #ccc',
+        marginTop: 20,
+        marginBottom: 10,
+    },
+    closeButton:{
+        color:'#fff',
+        padding:5,
+        backgroundColor:'#dc3545',
+        alignSelf:'flex-end',
+        borderRadius:4,
+        paddingHorizontal: 8,
+    },
+   
 
 })
 
