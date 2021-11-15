@@ -12,6 +12,17 @@ class Posteos extends Component {
             liked: false,
         }
     }
+    
+//setstate para que se vea el like
+componentDidMount() {
+    this.setState({
+        likes: this.props.data.data.likes.length,
+        liked: this.props.data.data.likes.includes(auth.currentUser.email)
+
+    })
+}
+
+    
 dislike() {
         let post = db.collection("posts").doc(this.props.data.id);
 
@@ -70,7 +81,8 @@ dislike() {
             <View style={styles.icons}>
             <TouchableOpacity style={styles.likes} > 
             <Text>{this.state.likes}</Text>
-            <Image style={styles.foto} source={{  uri: "https://img.icons8.com/material-outlined/24/000000/hearts.png"}}/>
+            {/* {if it was liked by the user change the image} */}
+            {!this.state.liked ? <Image style={styles.foto} source={{  uri: "https://img.icons8.com/material-outlined/24/000000/hearts.png"}}></Image> : <Image style={styles.foto} source={{  uri: "https://img.icons8.com/fluency/48/000000/like.png"}}></Image>}
            
         </TouchableOpacity>
                 

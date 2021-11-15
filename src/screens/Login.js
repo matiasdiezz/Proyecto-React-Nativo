@@ -5,7 +5,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       
+      email: "",
+      password: ""
     };
 }
   navigateToRegister = () => {
@@ -31,12 +32,22 @@ class Login extends Component {
                   secureTextEntry={true}
                   style={styles.input}
                 />
+                {/* {Button disabled until inputs are filled} */}
+                {this.state.email.length > 0 && this.state.password.length > 0 ?
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => this.props.login(this.state.email, this.state.password)}
                 >
                   <Text style={styles.textButton}>Loggear</Text>
                 </TouchableOpacity>
+                :
+                <TouchableOpacity
+                  style={styles.buttonDisabled}
+                  disabled={true}
+                >
+                  <Text style={styles.textButton}>Loggear</Text>
+                </TouchableOpacity>
+                }
                 <TouchableOpacity style={styles.buttonRegister} onPress={()=> this.navigateToRegister()}>
                   <Text style={styles.textButtonRegister}>Si no tenes cuenta, Registrarse</Text>
                 </TouchableOpacity>
@@ -93,6 +104,13 @@ class Login extends Component {
               borderColor: '#00ADB5',
               marginBottom: 10,
               borderRadius: 5,
+            },
+            buttonDisabled: {
+              backgroundColor: '#00ADB5',
+              padding: 10,
+              margin: 10,
+              borderRadius: 5,
+              opacity: 0.5,
             },
         });
         

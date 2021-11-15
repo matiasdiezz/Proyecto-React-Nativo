@@ -42,8 +42,6 @@ class Home extends Component {
     
     
     render() {
-        console.log(this.state.posteos);
-    console.log(this.props.userData);
         return (
             <>
             <FlatList

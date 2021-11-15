@@ -35,15 +35,21 @@ class Register extends Component {
                 keyboardType="email-address"
                 style={styles.input}
               />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.register(this.state.email, this.state.password, this.state.username)}
-              >
-                <Text style={styles.textButton}>Registrar</Text>
-              </TouchableOpacity>
-          </View>
+              <Text>Rellene el formulario para poder Registrarse</Text>
+              {/* When TextInputs are empty, the button is disabled */}
+              {this.state.email.length > 0 && this.state.password.length > 0 && this.state.username.length > 0 ?
+                <TouchableOpacity style={styles.button}  onPress={() => this.props.register(this.state.email, this.state.password, this.state.username)}>
+                  <Text style={styles.textButton}>Registrarse</Text>
+                </TouchableOpacity>
+                :
+                <TouchableOpacity style={styles.buttonDisabled} disabled={true}>
+                  
+                  <Text style={styles.textButton}>Registrarse</Text>
+                </TouchableOpacity>
+              }
+            </View>
         );
-    }
+    }              
 }
 
 const styles = StyleSheet.create({
@@ -77,6 +83,16 @@ const styles = StyleSheet.create({
       borderColor: '#00ADB5',
       marginBottom: 10,
       borderRadius: 5,
+    },
+    buttonEnabled: {
+      backgroundColor: '#00ADB5',
+    },
+    buttonDisabled: {
+      backgroundColor: '#00ADB5',
+      padding: 10,
+      margin: 10,
+      borderRadius: 5,
+      opacity: 0.5,
     },
 });
 
