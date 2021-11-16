@@ -79,8 +79,8 @@ class Menu extends Component {
             <>
                 {this.state.logged ? (
                 <Drawer.Navigator>
-                    <Drawer.Screen options={{title: 'Profile'}} name="Profile" component={()=><Profile userData={this.state.userData} logOut={()=>this.logout()}/>} />
-                    <Drawer.Screen options={{title: 'Home'}} name="Home" component={()=><Home userData={this.state.userData}  showPost={()=>this.showPost()} />} />
+                    <Drawer.Screen options={{title: 'Profile'}} name="Profile" component={(screenProps)=><Profile userData={this.state.userData} logOut={()=>this.logout()} screenProps={screenProps}/>} />
+                    <Drawer.Screen options={{title: 'Home'}} name="Home" component={()=><Home userData={this.state.userData}  showPost={()=>this.showPost()}  />} />
                     <Drawer.Screen options={{title:'Subir Post'}} name="Subir Post" component={()=><Formulario/>} />
                 </Drawer.Navigator>
                 ) : (

@@ -48,6 +48,9 @@ class Mycamera extends Component {
             });
         });
     }
+    cancelFoto(){
+        this.setState({foto:''});
+    }
     render() {
         return (
             <>
@@ -56,6 +59,9 @@ class Mycamera extends Component {
                     <Image style={styles.imagen} source={{uri: this.state.foto}}/>
                     <TouchableOpacity style={styles.button} onPress={()=>this.saveFoto()}>
                         <Text style={styles.textButton}>Aceptar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={()=>this.cancelFoto()}>
+                        <Text style={styles.textButton}>Canecelar</Text>
                     </TouchableOpacity>
                     </>
 

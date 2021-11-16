@@ -1,8 +1,9 @@
 
 import React, { Component } from 'react';
 import { auth, db } from "../firebase/config";
-import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, TextInput} from 'react-native'
 import firebase from "firebase"
+import { Modal } from 'react-native';
 
 class Posteos extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class Posteos extends Component {
             likes: 0,
             liked: false,
             showModal: false,
+            comment: [],
         }
     }
     
@@ -57,7 +59,7 @@ dislike() {
         let post = db.collection("posts").doc(this.props.data.id);
 
         post.update({
-            likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
+            likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.displayName)
         })
         .then(() => {
             this.setState({
@@ -85,10 +87,10 @@ dislike() {
         console.log('Guardando comentario...');
         let oneComment = {
             createdAt: Date.now(),
-            author: auth.currentUser.email,
+            author: auth.currentUser.displayName,
             comment: this.state.comment, 
         }
-         db.collection('posts').doc(this.props.postData.id).update({
+         db.collection('posts').doc(this.props.data.id).update({
            comments:firebase.firestore.FieldValue.arrayUnion(oneComment)
         })
         .then(()=>{
@@ -99,35 +101,49 @@ dislike() {
         }
         )}
 
+        showModal() {
+            this.setState({
+                showModal: true
+            })
+        }
+
+        hideModal() {
+            this.setState({
+                showModal: false
+            })
+        }
+
 
     
     render(){
-    console.log(this.props.data);
         return (
         <View style={styles.container}>
+            <View style={styles.Foto}>
+                <Image style={styles.imagen} source={this.props.data.data.foto}></Image>
+            </View>
             <Text>{this.props.data.data.title}</Text>
-            <Image style={styles.imagen} source={this.props.data.data.foto}></Image>
-
-            <View style={styles.icons}>
-            <TouchableOpacity style={styles.likes} > 
-            <Text>{this.state.likes}</Text>
+            
             {/* {if it was liked by the user change the image} */}
-            {!this.state.liked ? <Image style={styles.foto} source={{  uri: "https://img.icons8.com/material-outlined/24/000000/hearts.png"}}></Image> : <Image style={styles.foto} source={{  uri: "https://img.icons8.com/fluency/48/000000/like.png"}}></Image>}
            
-        </TouchableOpacity>
                 
+            <View style={styles.icons}>
                 {
                     ! this.state.liked ?
                         <TouchableOpacity style={styles.button} onPress={() => this.like()}>
-                             <Image  style={styles.foto} source={ { uri:"https://img.icons8.com/material-outlined/24/000000/facebook-like--v1.png"}}/>
-            
+                            <Text>{this.state.likes}</Text>
+                            <Image style={styles.Icons} source={{uri: "https://img.icons8.com/material-outlined/24/000000/hearts.png"}}></Image> 
                         </TouchableOpacity>
                     :
                         <TouchableOpacity style={styles.button} onPress={() => this.dislike()}>
-                              <Image  style={styles.foto} source={ { uri:"https://img.icons8.com/material-outlined/24/000000/thumbs-down.png"}}/>
-        
+                            <Text>{this.state.likes}</Text>
+                            <Image style={styles.Icons} source={{  uri: "https://img.icons8.com/fluency/48/000000/like.png"}}></Image>
                         </TouchableOpacity>
                 }
+                <TouchableOpacity style={styles.button} onPress={() => this.openModal()}>
+                    <Text>{this.props.data.data.comments.length}</Text>
+                    <Image style={styles.Icons} source={{uri: "https://img.icons8.com/material-outlined/24/000000/speech-bubble.png"}}></Image>
+                </TouchableOpacity>
+            </View>
                 {/* Modal para comentarios */}
             {   this.state.showModal ?
                 <Modal style={styles.modalContainer}
@@ -140,7 +156,7 @@ dislike() {
                     </TouchableOpacity> 
 
                     <FlatList
-                        data={this.props.postData.data.comments}
+                        data={this.props.data.data.comments}
                         keyExtractor={comment=>comment.createdAt.toString()}
                         renderItem={({item})=>(
                                 <Text>{item.author}: {item.comment}</Text> 
@@ -159,7 +175,7 @@ dislike() {
                             value={this.state.comment}
                         />
                         <TouchableOpacity 
-                        style={styles.button}
+                        style={styles.buttonModal}
                         onPress={()=>{this.guardarComentario()}}>
                             <Text style={styles.buttonText}>Guadar comentario</Text>
                         </TouchableOpacity>
@@ -168,7 +184,8 @@ dislike() {
                 </Modal>    :
                 <Text></Text>
             } 
-                </View>
+                
+                
         </View>
     )
 }
@@ -187,11 +204,19 @@ const styles = StyleSheet.create({
         margin: 10,
         marginBottom: 10,
     },
+    Foto:{
+        width: '100%',
+        height: 200,
+        borderRadius: 10,
+        borderColor: '#00ADB5',
+        marginBottom: 5,
+    },  
     imagen: {
         width: '100%',
-        height: '15vh',
+        height: '100%',
+        borderRadius: 10,
     },
-    foto:{
+    Icons:{
         width: "20px",
         height:"20px",
 
@@ -204,27 +229,61 @@ const styles = StyleSheet.create({
     likes:{
         flexDirection: "row",
     },
+    button:{
+        width: "20px",
+        height: "20px",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: 5,
+        flexDirection: "row",
+    },
+    input:{
+        width:'100%',  
+        flex: 3,
+        alignSelf: 'center',
+        backgroundColor: "white",
+        borderColor: 'rgba(0, 0, 0, 0.500)',
+        borderWidth: 1,
+        borderRadius: 6,
+        padding: 10,
+    },
+    modalText:{
+        fontWeight: 'bold',
+        color: '#Black'
+    },
     modalContainer:{
-        width:'97%',
+        width:'95%',
         borderRadius:4,
         padding:5,
         backgroundColor: '#fff',
-        justifyContent: 'center',
         alignSelf: 'center',
-        boxShadow: 'rgb(204 204 204 ) 0px 0px 9px 7px #ccc',
         marginTop: 20,
         marginBottom: 10,
     },
-    closeButton:{
-        color:'#fff',
-        padding:5,
-        backgroundColor:'#dc3545',
-        alignSelf:'flex-end',
-        borderRadius:4,
-        paddingHorizontal: 8,
+    buttonText:{
+        color: '#ffffff',
+        fontSize: 15,
     },
-   
-
+    modalText:{
+        color: '#ffffff'
+    },
+    closeButton:{
+        fontWeight: 'bold',
+        color: '#ffffff',
+        fontSize: 20,
+        alignSelf: 'flex-end',
+        padding: 10,
+        backgroundColor: '#dc3545',
+        marginTop:2,
+        borderRadius: 10,
+    },
+    buttonModal:{
+        alignSelf: 'center',
+        backgroundColor: '#00ADB5',
+        borderRadius: 4,
+        padding: 10,
+        marginTop: 10,
+    }
 })
 
 export default Posteos;

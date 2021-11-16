@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 
 class Login extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class Login extends Component {
                 <Text style={styles.title}>
                   Ingresa a tu cuenta
                   </Text>
+                  <Image source={require('../../assets/img/Log-In.png')} style={styles.Foto}/>
                 <TextInput
                   onChangeText={(text) => this.setState({ email: text })}
                   placeholder="email"
@@ -61,12 +62,13 @@ class Login extends Component {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#EEEEEE',
+            backgroundColor: '#fff',
           },
           title: {
             fontSize: 20,
             marginBottom: 20,
             color: '#303841',
+            fontWeight: 'bold',
           },
 
             button: {
@@ -111,6 +113,11 @@ class Login extends Component {
               margin: 10,
               borderRadius: 5,
               opacity: 0.5,
+            },
+            Foto: {
+              width: 200,
+              height: 200,
+              marginBottom: 20,
             },
         });
         

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import Mycamera from '../components/MyCamera';
 import { auth,db } from '../firebase/config';
 
@@ -68,16 +68,30 @@ export class Formulario extends Component {
                     value={this.state.description}
                     style={styles.input}
                 />
-                {/* When theres a photo the button changes color */}
+                {this.state.url ? 
+                <View style={styles.inline}>
                 <TouchableOpacity
-                    style={styles.button, this.state.url ? styles.buttonActive : styles.button}
+                    style={styles.buttonActive}
+                    disabled={true}
+                >
+                    <Text style={styles.textButton}>
+                        Subir Foto
+                    </Text>
+                    
+                </TouchableOpacity>
+                <Image  style={styles.icon} source={ { uri:"https://img.icons8.com/external-bearicons-outline-color-bearicons/64/000000/external-verified-reputation-bearicons-outline-color-bearicons.png"}}/>
+                </View>
+                :
+                <TouchableOpacity
+                    style={styles.button}
                     onPress={()=> this.showCamera()}
                 >
                     <Text style={styles.textButton}>
                         Subir Foto
                     </Text>
                 </TouchableOpacity>
-                {this.state.url ?
+                }
+                {this.state.url && this.state.Title.length > 0 && this.state.description.length > 0                ?
                     <TouchableOpacity
                         style={styles.button}
                         onPress={()=> this.submitForm()}
@@ -86,8 +100,17 @@ export class Formulario extends Component {
                             Subir Post
                         </Text>
                     </TouchableOpacity>
-                    : null
+                    :  
+                    <TouchableOpacity
+                    style={styles.buttonActive}
+                    disabled={true}
+                >
+                    <Text style={styles.textButton}>
+                        Subir Post
+                    </Text>
+                </TouchableOpacity>
                 }
+
             </View>
         )
     }
@@ -118,11 +141,12 @@ const styles = StyleSheet.create({
         width:'50%',
     },
     buttonActive: {
-        backgroundColor: '#393E46',
+        backgroundColor: '#00ADB5',
         padding: 10,
         margin: 10,
         borderRadius: 5,
         width:'50%',
+        opacity: 0.5,
     },  
     textButton: {
         color: '#fff',
@@ -133,7 +157,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 10,
         fontWeight: 'bold',
+    },
+    icon: {
+        width: 30,
+        height: 30,
+        marginLeft: 10,
+        marginHorizontal: 10,
+    },
+    inline: {
+        alignItems: 'center',
+        flexDirection: 'row',
     }
+
 })
 
 export default Formulario
