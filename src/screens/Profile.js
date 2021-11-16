@@ -37,6 +37,15 @@ class Profile extends Component {
         this.showposts();
     }
         
+    borrarPost = (id) => {
+        db.collection('posts').doc(id).delete()
+        .then(()=>{this.showposts()})
+    }
+
+    componentDidUpdate(){
+        this.showposts();
+    }
+
             
     render() {
 
@@ -45,11 +54,21 @@ class Profile extends Component {
             <View style={styles.container}>
                 <Text style={styles.userData}>Bienvenido {this.props.userData.displayName} </Text>
                 {this.state.posteos.length > 0 ? (
+                     <View style={styles.posteo}>   
                     <FlatList
                     data={this.state.posteos}
-                    renderItem={({ item }) => <Posteo data={item} />}
+                    renderItem={({ item }) => <> <Posteo data={item} /> 
+                    <TouchableOpacity 
+                    style={styles.button}
+                    onPress={() => this.borrarPost(item.id)}
+                    >
+                        <Text>Eliminar</Text>
+                    </TouchableOpacity>
+                    </>
+}
                     keyExtractor={item => item.id}
                     />
+                    </View>
                 ) : (
                 <>
                     <Text style={styles.userData}>Todavia no tienes ningún posteo, Crea uno!</Text>
@@ -120,6 +139,10 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 10,
     },
+    posteo:{
+        width: '100%',
+        height: '100%',
+    }
 })
 
 
