@@ -56,6 +56,7 @@ export class Formulario extends Component {
            this.state.showCamera ? <Mycamera onImageUpload={(url)=>this.onImageUpload(url)}/> :
             <View style={styles.container}>
                 <Text style={styles.titulo}>Subir un post</Text>
+                <Image source={require('../../assets/img/Post.png')} style={styles.Foto}/>
                 <TextInput
                     placeholder="Titulo del post"
                     onChangeText={(text) => this.setState({Title: text})}
@@ -122,6 +123,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    Foto: {
+        width: 300,
+        height: 200,
+        marginBottom: 20,
     },
     input: {
         width: 300,
