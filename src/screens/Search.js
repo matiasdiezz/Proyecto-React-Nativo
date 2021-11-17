@@ -15,8 +15,12 @@ class Search extends Component {
         };
     }
     
-    showposts(){
-        db.collection('posts').where('title','==', this.state.search).onSnapshot(
+    componentDidUpdate(){
+        this.getPosteos();
+    }
+    
+    getPosteos(){
+    db.collection('posts').where('title','==', this.state.search).onSnapshot(
             docs =>{
              let posts = [];
              docs.forEach( doc => {
@@ -35,13 +39,11 @@ class Search extends Component {
             <View style={styles.container}>
                 <TextInput
                 onChangeText={(text) => this.setState({search: text })}
-                placeholder="username"
+                placeholder="Post Title"
                 keyboardType="email-address"
                 style={styles.input}
               />
-            <TouchableOpacity style={styles.button} Onpress= {()=>this.showposts()}>
-            <Text style={styles.textButton}>Buscar</Text>
-            </TouchableOpacity>
+            
                 <FlatList
             style={styles.list} 
             data={this.state.posteos}
@@ -69,6 +71,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 1,
         borderColor: '#00ADB5',
+        marginTop: 10,
         marginBottom: 10,
         borderRadius: 5,
       },

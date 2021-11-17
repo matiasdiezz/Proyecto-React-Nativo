@@ -18,7 +18,7 @@ class Profile extends Component {
         this.props.screenProps.navigation.navigate('Subir Post');
     }
     showposts(){
-        db.collection('posts').where('user','==', auth.currentUser.email).onSnapshot(
+        db.collection('posts').where('user','==', auth.currentUser.displayName).onSnapshot(
             docs =>{
              let posts = [];
              docs.forEach( doc => {
@@ -36,16 +36,12 @@ class Profile extends Component {
     componentDidMount(){
         this.showposts();
     }
-        
+
     borrarPost = (id) => {
         db.collection('posts').doc(id).delete()
-        .then(()=>{this.showposts()})
-    }
-
-    componentDidUpdate(){
         this.showposts();
     }
-
+        
             
     render() {
 
@@ -53,22 +49,22 @@ class Profile extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.userData}>Bienvenido {this.props.userData.displayName} </Text>
+                <Text style={styles.userDataSecundaria}>Email: {this.props.userData.email} </Text>
+                <Text style={styles.userDataSecundaria}>Fecha de Creacion: {this.props.userData.createdAt} </Text>
+
                 {this.state.posteos.length > 0 ? (
-                     <View style={styles.posteo}>   
+                <View style={styles.posteos}>
                     <FlatList
                     data={this.state.posteos}
-                    renderItem={({ item }) => <> <Posteo data={item} /> 
-                    <TouchableOpacity 
-                    style={styles.button}
-                    onPress={() => this.borrarPost(item.id)}
-                    >
+                    renderItem={({ item }) => <><Posteo data={item}/> 
+                    <TouchableOpacity style={styles.buttonBorrar} onPress={() => this.borrarPost(item.id)}>
                         <Text>Eliminar</Text>
                     </TouchableOpacity>
                     </>
-}
+                    }
                     keyExtractor={item => item.id}
                     />
-                    </View>
+                 </View>   
                 ) : (
                 <>
                     <Text style={styles.userData}>Todavia no tienes ningún posteo, Crea uno!</Text>
@@ -99,6 +95,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '100%',
     },
+    posteos: {
+        width: '100%',
+        marginTop: 20,
+    },
     button: {
         backgroundColor: '#00ADB5',
         padding: 10,
@@ -109,6 +109,13 @@ const styles = StyleSheet.create({
     },
     buttonPost: {
         backgroundColor: '#7FC8A9',
+        padding: 10,
+        margin: 10,
+        borderRadius: 5,
+        width: '30%',
+    },
+    buttonBorrar: {
+        backgroundColor: '#FF6B6B',
         padding: 10,
         margin: 10,
         borderRadius: 5,
@@ -127,6 +134,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         margin: 10,
+        textAlign: 'Center',
+    },
+    userDataSecundaria: {
+        fontSize: 15,
+        margin: 10,
+        textAlign: 'left',
     },
     Foto: {
         width: '300px',
@@ -139,10 +152,6 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 10,
     },
-    posteo:{
-        width: '100%',
-        height: '100%',
-    }
 })
 
 

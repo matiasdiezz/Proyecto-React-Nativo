@@ -121,8 +121,7 @@ dislike() {
             <View style={styles.Foto}>
                 <Image style={styles.imagen} source={this.props.data.data.foto}></Image>
             </View>
-            <Text>{this.props.data.data.title}</Text>
-            
+           
             {/* {if it was liked by the user change the image} */}
            
                 
@@ -158,19 +157,15 @@ dislike() {
                     <FlatList
                         data={this.props.data.data.comments}
                         keyExtractor={comment=>comment.createdAt.toString()}
-                        renderItem={({item})=>(
-                                <Text>{item.author}: {item.comment}</Text> 
-                        )}
-
-                    />
+                        renderItem={({item})=>(<Text>{item.author}: {item.comment}</Text> )}/>
 
                     {/* Formulario para nuevo comentarios */}
+
                     <View>
                         <TextInput 
                             style={styles.input}
-                        placeholder="Comentar..."
+                            placeholder="Comentar..."
                             keyboardType="default"
-                            multiline
                             onChangeText={text => this.setState({comment: text})}
                             value={this.state.comment}
                         />
@@ -180,13 +175,13 @@ dislike() {
                             <Text style={styles.buttonText}>Guadar comentario</Text>
                         </TouchableOpacity>
                     </View>
-
-                </Modal>    :
+                </Modal>    
+                :
                 <Text></Text>
             } 
-                
-                
-        </View>
+        <Text style={styles.Titulo}>{this.props.data.data.title}</Text>
+        <Text style={styles.Descripcion}>{this.props.data.data.description}</Text>        
+    </View>
     )
 }
 }
@@ -196,26 +191,51 @@ const styles = StyleSheet.create({
         flex: 1,
         display: "flex", 
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'left',
+        justifyContent: 'left',
         borderRadius: 10,
         borderColor: '#00ADB5',
         borderWidth: 1, 
         margin: 10,
         marginBottom: 10,
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
+    Titulo:{
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginTop: 5,
+        marginLeft: 5,
+        width: '100%',
+        textAlign: 'left',
+
+    },
+    Descripcion:{
+        fontSize: 15,
+        marginBottom: 10,
+        marginLeft: 5,
+        width: '100%',
+        textAlign: 'left',
+    },
+
+    // Foto
     Foto:{
         width: '100%',
         height: 200,
-        borderRadius: 10,
         borderColor: '#00ADB5',
         marginBottom: 5,
     },  
     imagen: {
+        // border radius on top
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         width: '100%',
         height: '100%',
-        borderRadius: 10,
     },
+
+    //Iconos
     Icons:{
         width: "20px",
         height:"20px",
@@ -224,11 +244,13 @@ const styles = StyleSheet.create({
     icons:{
         flexDirection: 'row', 
         width: "100%",
-        justifyContent: "space-evenly",
+        justifyContent: "left",
+        margin: 5,
     },
     likes:{
         flexDirection: "row",
     },
+    // Botones
     button:{
         width: "20px",
         height: "20px",
@@ -236,6 +258,20 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         margin: 5,
         flexDirection: "row",
+    },
+    buttonText:{
+        color: '#ffffff',
+        fontSize: 15,
+    },
+    closeButton:{
+        fontWeight: 'bold',
+        color: '#ffffff',
+        fontSize: 20,
+        alignSelf: 'flex-end',
+        padding: 10,
+        backgroundColor: '#dc3545',
+        marginTop:2,
+        borderRadius: 10,
     },
     input:{
         width:'100%',  
@@ -247,35 +283,27 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         padding: 10,
     },
+    // Modal
     modalText:{
         fontWeight: 'bold',
         color: '#Black'
     },
     modalContainer:{
-        width:'95%',
+        width:'100%',
         borderRadius:4,
         padding:5,
         backgroundColor: '#fff',
         alignSelf: 'center',
         marginTop: 20,
         marginBottom: 10,
-    },
-    buttonText:{
-        color: '#ffffff',
-        fontSize: 15,
+        shadowColor: '#171717',
+        shadowOpacity: 1.2,
+        shadowRadius: 3,
+        borderWidth: 1,
+        borderColor: '#fff',
     },
     modalText:{
         color: '#ffffff'
-    },
-    closeButton:{
-        fontWeight: 'bold',
-        color: '#ffffff',
-        fontSize: 20,
-        alignSelf: 'flex-end',
-        padding: 10,
-        backgroundColor: '#dc3545',
-        marginTop:2,
-        borderRadius: 10,
     },
     buttonModal:{
         alignSelf: 'center',
