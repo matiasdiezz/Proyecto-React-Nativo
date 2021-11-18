@@ -13,6 +13,7 @@ class Mycamera extends Component {
         };
         this.camera;
     }
+
     componentDidMount(){
         Camera.requestCameraPermissionsAsync(
             ).then(() => {
@@ -57,6 +58,9 @@ class Mycamera extends Component {
             {this.state.foto ? (
                     <>
                     <Image style={styles.imagen} source={{uri: this.state.foto}}/>
+
+                    {/* botones de la foto */}
+                    
                     <TouchableOpacity style={styles.button} onPress={()=>this.saveFoto()}>
                         <Text style={styles.textButton}>Aceptar</Text>
                     </TouchableOpacity>
@@ -67,20 +71,22 @@ class Mycamera extends Component {
 
                 ):
                     <>
-                        <Camera 
-                            style={styles.preview}
-                            type={Camera.Constants.Type.front}
-                            ref={ref => {
-                                this.camera = ref;
-                            }}
 
+                    {/* Camara */}
+                    
+                        <Camera 
+                        style={styles.preview}
+                        type={Camera.Constants.Type.front}
+                        ref={ref => {
+                            this.camera = ref;
+                        }}
                         />
                         <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => {
-                                this.takePicture();
-                            }}>
-                                <Text style={styles.textButton}>Capture</Text>
+                        style={styles.button}
+                        onPress={() => {
+                            this.takePicture();
+                        }}>
+                            <Text style={styles.textButton}>Capture</Text>
                         </TouchableOpacity>
                     </>
             }

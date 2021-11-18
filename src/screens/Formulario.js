@@ -55,10 +55,15 @@ export class Formulario extends Component {
     }
     render() {
         return (
+
+        // Camara y formulario
            this.state.showCamera ? <Mycamera onImageUpload={(url)=>this.onImageUpload(url)}/> :
             <View style={styles.container}>
                 <Text style={styles.titulo}>Subir un post</Text>
                 <Image source={require('../../assets/img/Post.png')} style={styles.Foto}/>
+
+                {/* Formulario del Post */} 
+
                 <TextInput
                     placeholder="Titulo del post"
                     onChangeText={(text) => this.setState({Title: text})}
@@ -73,16 +78,17 @@ export class Formulario extends Component {
                 />
                 {this.state.url ? 
                 <View style={styles.inline}>
-                <TouchableOpacity
+
+                {/* Botones del Formulario */}
+
+                    <TouchableOpacity
                     style={styles.buttonActive}
-                    disabled={true}
-                >
-                    <Text style={styles.textButton}>
-                        Subir Foto
-                    </Text>
-                    
-                </TouchableOpacity>
-                <Image  style={styles.icon} source={ { uri:"https://img.icons8.com/external-bearicons-outline-color-bearicons/64/000000/external-verified-reputation-bearicons-outline-color-bearicons.png"}}/>
+                    disabled={true}>
+                        <Text style={styles.textButton}>
+                            Subir Foto
+                        </Text>                        
+                    </TouchableOpacity>
+                    <Image  style={styles.icon} source={ { uri:"https://img.icons8.com/external-bearicons-outline-color-bearicons/64/000000/external-verified-reputation-bearicons-outline-color-bearicons.png"}}/>
                 </View>
                 :
                 <TouchableOpacity
@@ -94,7 +100,10 @@ export class Formulario extends Component {
                     </Text>
                 </TouchableOpacity>
                 }
-                {this.state.url && this.state.Title.length > 0 && this.state.description.length > 0                ?
+                {this.state.url && this.state.Title.length > 0 && this.state.description.length > 0 ?
+
+                    // Si todos los campos estan llenos se puede subir el post
+
                     <TouchableOpacity
                         style={styles.button}
                         onPress={()=> this.submitForm()}
@@ -107,13 +116,12 @@ export class Formulario extends Component {
                     <TouchableOpacity
                     style={styles.buttonActive}
                     disabled={true}
-                >
-                    <Text style={styles.textButton}>
-                        Subir Post
-                    </Text>
-                </TouchableOpacity>
-                }
-
+                    >
+                        <Text style={styles.textButton}>
+                            Subir Post
+                        </Text>
+                    </TouchableOpacity>
+                    }
             </View>
         )
     }

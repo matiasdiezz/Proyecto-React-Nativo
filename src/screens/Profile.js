@@ -11,12 +11,12 @@ class Profile extends Component {
             posteos: [],
             loading: true,
         };
-
     }
 
     irAFormulario = () => {
         this.props.screenProps.navigation.navigate('Subir Post');
     }
+
     showposts(){
         db.collection('posts').where('user','==', auth.currentUser.displayName).onSnapshot(
             docs =>{
@@ -49,14 +49,16 @@ class Profile extends Component {
         
             
     render() {
-
-        console.log(this.props.userData)
         return (
             <View style={styles.container}>
+                {/* Datos del usuario */}
+
                 <Text style={styles.userData}>Bienvenido {this.props.userData.displayName} </Text>
                 <Text style={styles.userDataSecundaria}>Email: {this.props.userData.email} </Text>
                 <Text style={styles.userDataSecundaria}>Ultima vez online: {this.props.userData.metadata.lastSignInTime} </Text>
                 <Text style={styles.userDataSecundaria}>Cantidad de posteos: {this.state.posteos.length} </Text>
+
+                {/* Lista de Posteos del usuario */}
 
                 {this.state.posteos.length > 0 ? (
                 <View style={styles.posteos}>
@@ -75,14 +77,14 @@ class Profile extends Component {
                 <>
                     <Text style={styles.userData}>Todavia no tienes ningún posteo, Crea uno!</Text>
                     <Image source={require('../../assets/img/AddPost.png')} style={styles.Foto} />
-                <View style={styles.buttonContainer}>       
-                    <TouchableOpacity style={styles.buttonPost} onPress={() => this.irAFormulario()}>
-                        <Text style={styles.textButton}>Crear Posteo</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonPost} onPress={() => this.props.screenProps.navigation.navigate('Home')}>
-                        <Text style={styles.textButton}>Ver Posts</Text>
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.buttonContainer}>       
+                        <TouchableOpacity style={styles.buttonPost} onPress={() => this.irAFormulario()}>
+                            <Text style={styles.textButton}>Crear Posteo</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonPost} onPress={() => this.props.screenProps.navigation.navigate('Home')}>
+                            <Text style={styles.textButton}>Ver Posts</Text>
+                        </TouchableOpacity>
+                    </View>
                 </>
                 )}
                 <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>

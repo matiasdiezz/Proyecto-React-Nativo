@@ -16,10 +16,11 @@ class Login extends Component {
                 return (
               <View 
                 style={styles.container}>
-                <Text style={styles.title}>
-                  Ingresa a tu cuenta
-                  </Text>
-                  <Image source={require('../../assets/img/Log-In.png')} style={styles.Foto}/>
+                <Text style={styles.title}>Ingresa a tu cuenta</Text>
+                <Image source={require('../../assets/img/Log-In.png')} style={styles.Foto}/>
+
+                {/* Imputs del Login */}
+
                 <TextInput
                   onChangeText={(text) => this.setState({ email: text })}
                   placeholder="email"
@@ -34,7 +35,9 @@ class Login extends Component {
                   style={styles.input}
                 />
                 <Text style={styles.error}>{this.props.errorMessage}</Text>
-                {/* {Button disabled until inputs are filled} */}
+
+                {/* Botones del Log in */}
+
                 {this.state.email.length > 0 && this.state.password.length > 0 ?
                 <TouchableOpacity
                   style={styles.button}

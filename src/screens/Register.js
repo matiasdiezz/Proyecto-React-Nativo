@@ -17,6 +17,8 @@ class Register extends Component {
             <View style={styles.container}>
               <Text style={styles.title}>Crea tu cuenta para poder ingresar</Text>
               <Image style={styles.Foto} source={require('../../assets/img/Register.png')} />
+
+              {/* Imputs del Register */}
               <TextInput
                 onChangeText={(text) => this.setState({ username: text })}
                 placeholder="username"
@@ -37,14 +39,13 @@ class Register extends Component {
                 style={styles.input}
               />
               <Text>Rellene el formulario para poder Registrarse</Text>
-              {/* When TextInputs are empty, the button is disabled */}
+              {/* Register button */}
               {this.state.email.length > 0 && this.state.password.length > 0 && this.state.username.length > 0 ?
                 <TouchableOpacity style={styles.button}  onPress={() => this.props.register(this.state.email, this.state.password, this.state.username)}>
                   <Text style={styles.textButton}>Registrarse</Text>
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={styles.buttonDisabled} disabled={true}>
-                  
+                <TouchableOpacity style={styles.buttonDisabled} disabled={true}>                 
                   <Text style={styles.textButton}>Registrarse</Text>
                 </TouchableOpacity>
               }

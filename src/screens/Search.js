@@ -20,17 +20,17 @@ class Search extends Component {
     }
     
     getPosteos(){
-    db.collection('posts').where('user','==', this.state.search).onSnapshot(
+        db.collection('posts').where('user','==', this.state.search).onSnapshot(
             docs =>{
              let posts = [];
              docs.forEach( doc => {
-            posts.push({
-            id: doc.id,
-            data: doc.data()
-            })
-             this.setState({
+                posts.push({
+                id: doc.id,
+                data: doc.data()
+                })
+            this.setState({
             posteos: posts,
-             })})}
+            })})}
         )
     }
 
@@ -42,14 +42,17 @@ class Search extends Component {
                 placeholder="Post Title"
                 keyboardType="email-address"
                 style={styles.input}
-              />
-            
-                <FlatList
-            style={styles.list} 
-            data={this.state.posteos}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => <Posteo data={item}/>} 
-            />
+                />
+                {this.state.posteos.length > 0 ? (
+                    <FlatList
+                    style={styles.list} 
+                    data={this.state.posteos}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({item}) => <Posteo data={item}/>} 
+                    />
+                ) : (
+                    <Text>No se encontro ningun usuario con posteos</Text>
+                )}
             </View>
         )
     }

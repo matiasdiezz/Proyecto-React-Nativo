@@ -77,33 +77,39 @@ class Home extends Component {
         return (
             <>
             <View style={styles.container}>
+
+            {/* Botones del Home */}
+
             {!this.state.verLikes ? (
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.buttonLikes} onPress={() => this.orderMostLikes()}>
-                        <Text style={styles.textButtonLikes}>
-                            Ver los más likeados
-                        </Text>
-                    </TouchableOpacity>
                     <TouchableOpacity style={styles.buttonDisabled} onPress={() => this.showposts()} disabled={true}>
                         <Text style={styles.textButtonLikes}>
                             Ver los más Recientes
                         </Text>
                     </TouchableOpacity>
-                </View>
-                    ):(
-                <View style={styles.header}>
-                        <TouchableOpacity style={styles.buttonDisabled} onPress={() => this.orderMostLikes()} disabled={true}>
+                    <TouchableOpacity style={styles.buttonLikes} onPress={() => this.orderMostLikes()}>
                         <Text style={styles.textButtonLikes}>
                             Ver los más likeados
                         </Text>
                     </TouchableOpacity>
+                </View>
+                    ):(
+                <View style={styles.header}>
                     <TouchableOpacity style={styles.buttonLikes} onPress={() => this.showposts()}>
                         <Text style={styles.textButtonLikes}>
                             Ver los más Recientes
                         </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonDisabled} onPress={() => this.orderMostLikes()} disabled={true}>
+                        <Text style={styles.textButtonLikes}>
+                            Ver los más likeados
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             )}
+
+            {/* Lista de Posteos */}
+
             <FlatList
             style={styles.list} 
             data={this.state.posteos}
@@ -141,6 +147,21 @@ const styles = StyleSheet.create({
         bottom: 0,
         width: '95%',
     },
+    buttonLikes: {
+        backgroundColor: '#FFE652',
+        padding: 5,
+        margin: 10,
+        borderRadius: 5,
+        width: '40%',
+    },
+    buttonDisabled: {
+        backgroundColor: '#FFE652',
+        padding: 5,
+        margin: 10,
+        borderRadius: 5,
+        width: '40%',
+        opacity: 0.5,
+    },
     textButton: {
         color: '#fff',
         textAlign: 'center',
@@ -150,21 +171,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
-    },
-    buttonLikes: {
-        backgroundColor: '#00ADB5',
-        padding: 5,
-        margin: 10,
-        borderRadius: 5,
-        width: '40%',
-    },
-    buttonDisabled: {
-        backgroundColor: '#0D7377',
-        padding: 5,
-        margin: 10,
-        borderRadius: 5,
-        width: '40%',
-        opacity: 0.5,
     },
     textButtonLikes: {
         color: '#fff',

@@ -130,8 +130,7 @@ dislike() {
                 <Image style={styles.imagen} source={this.props.data.data.foto}></Image>
             </View>
            
-            {/* {if it was liked by the user change the image} */}
-           
+            {/* Botones de los posteos */}
                 
             <View style={styles.icons}>
                 {
@@ -151,7 +150,9 @@ dislike() {
                     <Image style={styles.Icons} source={{uri: "https://img.icons8.com/material-outlined/24/000000/speech-bubble.png"}}></Image>
                 </TouchableOpacity>
             </View>
+
                 {/* Modal para comentarios */}
+
             {   this.state.showModal ?
                 <Modal style={styles.modalContainer}
                     visible={this.state.showModal}
@@ -162,12 +163,12 @@ dislike() {
                         <Text style={styles.closeButton}>X</Text>
                     </TouchableOpacity> 
                     {this.props.data.data.comments.length > 0 ?
-                         <FlatList
-                        data={this.props.data.data.comments}
-                        keyExtractor={comment=>comment.createdAt.toString()}
-                        renderItem={({item})=>(<Text>{item.author}: {item.comment}</Text> )}/>
-                        :
-                        <Text>No hay comentarios</Text>
+                        <FlatList
+                    data={this.props.data.data.comments}
+                    keyExtractor={comment=>comment.createdAt.toString()}
+                    renderItem={({item})=>(<Text>{item.author}: {item.comment}</Text> )}/>
+                    :
+                    <Text>No hay comentarios</Text>
                 }
                    
 
