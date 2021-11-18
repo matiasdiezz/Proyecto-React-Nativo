@@ -112,6 +112,14 @@ dislike() {
                 showModal: false
             })
         }
+        borrarPost = (id) => {
+            db.collection('posts').doc(id).delete()
+           
+        }
+        
+
+       
+
 
 
     
@@ -153,11 +161,15 @@ dislike() {
                     <TouchableOpacity onPress={()=>this.hideModal()}>
                         <Text style={styles.closeButton}>X</Text>
                     </TouchableOpacity> 
-
-                    <FlatList
+                    {this.props.data.data.comments.length > 0 ?
+                         <FlatList
                         data={this.props.data.data.comments}
                         keyExtractor={comment=>comment.createdAt.toString()}
                         renderItem={({item})=>(<Text>{item.author}: {item.comment}</Text> )}/>
+                        :
+                        <Text>No hay comentarios</Text>
+                }
+                   
 
                     {/* Formulario para nuevo comentarios */}
 
@@ -180,10 +192,19 @@ dislike() {
                 <Text></Text>
             } 
         <Text style={styles.Titulo}>{this.props.data.data.title}</Text>
-        <Text style={styles.Descripcion}>{this.props.data.data.description}</Text>        
-    </View>
-    )
-}
+        <Text style={styles.Descripcion}>{this.props.data.data.description}</Text>
+        {auth.currentUser.displayName == "admin" ?
+           
+                <TouchableOpacity style={styles.buttonDelete} onPress={() => this.borrarPost(this.props.data.id)}>
+                    <Text>Borrar</Text>
+                </TouchableOpacity>
+            
+        :
+            <View></View>
+        }
+        </View>
+        )
+    }       
 }
 
 const styles = StyleSheet.create({
@@ -258,7 +279,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         margin: 5,
         flexDirection: "row",
+
     },
+    buttonDelete:{
+        
+        alignItems: "center",
+        justifyContent: "center",
+        margin: 5,
+        flexDirection: "row",
+        backgroundColor: '#00ADB5',
+    },
+
+    
     buttonText:{
         color: '#ffffff',
         fontSize: 15,

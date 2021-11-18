@@ -20,6 +20,8 @@ class Menu extends Component {
         this.state = {
             logged: false,
             userData: [],
+            errorMessage: null
+
         }
     }
 
@@ -48,7 +50,10 @@ class Menu extends Component {
           userData: response
         })
     })                       
-    .catch((err) => console.log(err));
+    .catch((err) => {console.log(err);
+    this.setState({ errorMessage: err.message })
+    });
+    
     }
 
     //Logout
@@ -87,7 +92,7 @@ class Menu extends Component {
                 </Drawer.Navigator>
                 ) : (
                 <Drawer.Navigator>
-                    <Drawer.Screen options={{title: 'Login'}} name="Login" component={(screenProps)=><Login login={(email,pass)=>this.login(email,pass)} screenProps={screenProps}/>} />
+                    <Drawer.Screen options={{title: 'Login'}} name="Login" component={(screenProps)=><Login login={(email,pass)=>this.login(email,pass)} screenProps={screenProps} errorMessage={this.state.errorMessage}/>} />
                     <Drawer.Screen options={{title: 'Register'}} name="Register" component={()=><Register register={(email,pass,username)=>this.register(email,pass,username)} />} />
                 </Drawer.Navigator>
                 )}

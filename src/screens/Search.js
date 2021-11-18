@@ -20,7 +20,7 @@ class Search extends Component {
     }
     
     getPosteos(){
-    db.collection('posts').where('title','==', this.state.search).onSnapshot(
+    db.collection('posts').where('user','==', this.state.search).onSnapshot(
             docs =>{
              let posts = [];
              docs.forEach( doc => {

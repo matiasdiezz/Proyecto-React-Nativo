@@ -18,6 +18,7 @@ export class Formulario extends Component {
     submitForm = () => {
         db.collection('posts').add({
             user: auth.currentUser.displayName,
+            email: auth.currentUser.email,
             description: this.state.description,
             title: this.state.Title,
             createdAt: Date.now(),

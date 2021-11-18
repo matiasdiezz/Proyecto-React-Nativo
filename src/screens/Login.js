@@ -33,6 +33,7 @@ class Login extends Component {
                   secureTextEntry={true}
                   style={styles.input}
                 />
+                <Text style={styles.error}>{this.props.errorMessage}</Text>
                 {/* {Button disabled until inputs are filled} */}
                 {this.state.email.length > 0 && this.state.password.length > 0 ?
                 <TouchableOpacity

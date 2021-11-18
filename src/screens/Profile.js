@@ -40,7 +40,12 @@ class Profile extends Component {
     borrarPost = (id) => {
         db.collection('posts').doc(id).delete()
         this.showposts();
+
     }
+ 
+    
+
+
         
             
     render() {
@@ -50,7 +55,8 @@ class Profile extends Component {
             <View style={styles.container}>
                 <Text style={styles.userData}>Bienvenido {this.props.userData.displayName} </Text>
                 <Text style={styles.userDataSecundaria}>Email: {this.props.userData.email} </Text>
-                <Text style={styles.userDataSecundaria}>Fecha de Creacion: {this.props.userData.createdAt} </Text>
+                <Text style={styles.userDataSecundaria}>Ultima vez online: {this.props.userData.metadata.lastSignInTime} </Text>
+                <Text style={styles.userDataSecundaria}>Cantidad de posteos: {this.state.posteos.length} </Text>
 
                 {this.state.posteos.length > 0 ? (
                 <View style={styles.posteos}>
