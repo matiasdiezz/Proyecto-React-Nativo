@@ -148,14 +148,14 @@ const styles = StyleSheet.create({
         width: '95%',
     },
     buttonLikes: {
-        backgroundColor: '#FFE652',
+        backgroundColor: '#323232',
         padding: 5,
         margin: 10,
         borderRadius: 5,
         width: '40%',
     },
     buttonDisabled: {
-        backgroundColor: '#FFE652',
+        backgroundColor: '#323232',
         padding: 5,
         margin: 10,
         borderRadius: 5,
