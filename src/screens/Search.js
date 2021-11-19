@@ -15,12 +15,8 @@ class Search extends Component {
         };
     }
     
-    componentDidUpdate(){
-        this.getPosteos();
-    }
-    
     getPosteos(){
-        db.collection('posts').where('user','==', this.state.search).onSnapshot(
+        db.collection('posts').where('user','==', this.state.search).limit(5).onSnapshot(
             docs =>{
              let posts = [];
              docs.forEach( doc => {
@@ -34,6 +30,7 @@ class Search extends Component {
         )
     }
 
+
     render() {
         return (
             <View style={styles.container}>
@@ -43,6 +40,11 @@ class Search extends Component {
                 keyboardType="email-address"
                 style={styles.input}
                 />
+                <TouchableOpacity
+                onPress={() => this.getPosteos()}
+                style={styles.button}>
+                <Text style={styles.textButton}>Search</Text>
+                </TouchableOpacity>
                 {this.state.posteos.length > 0 ? (
                     <FlatList
                     style={styles.list} 
