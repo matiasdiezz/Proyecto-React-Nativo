@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity, FlatList, Image} from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity, FlatList, Image, ActivityIndicator} from 'react-native'
 import { auth,db } from '../firebase/config';
 import Posteo from "../components/Posteo"
 
@@ -50,16 +50,21 @@ class Profile extends Component {
             
     render() {
         return (
+            <>
+             {!this.state.loading ? (
             <View style={styles.container}>
                 {/* Datos del usuario */}
 
-                <Text style={styles.userData}>Bienvenido {this.props.userData.displayName} </Text>
-                <Text style={styles.userDataSecundaria}>Email: {this.props.userData.email} </Text>
-                <Text style={styles.userDataSecundaria}>Ultima vez online: {this.props.userData.metadata.lastSignInTime} </Text>
+                <Text style={styles.userData}>🤖 {this.props.userData.displayName} </Text>
+                <Text style={styles.userDataSecundaria}>📩: {this.props.userData.email} </Text>
+                <Text style={styles.userDataSecundaria}>🖥: {this.props.userData.metadata.lastSignInTime} </Text>
                 <Text style={styles.userDataSecundaria}>Cantidad de posteos: {this.state.posteos.length} </Text>
 
                 {/* Lista de Posteos del usuario */}
 
+                <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
+                    <Text style={styles.textButton}>Log out</Text>
+                </TouchableOpacity>  
                 {this.state.posteos.length > 0 ? (
                 <View style={styles.posteos}>
                     <FlatList
@@ -72,7 +77,7 @@ class Profile extends Component {
                     }
                     keyExtractor={item => item.id}
                     />
-                 </View>   
+                 </View> 
                 ) : (
                 <>
                     <Text style={styles.userData}>Todavia no tienes ningún posteo, Crea uno!</Text>
@@ -87,10 +92,14 @@ class Profile extends Component {
                     </View>
                 </>
                 )}
-                <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
-                    <Text style={styles.textButton}>Log out</Text>
-                </TouchableOpacity>
+                
             </View>
+            ) : (
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color="#0000ff" style={styles.ActivityIndicator} />
+            </View>
+            )}
+            </>
         )
     }
 }
@@ -99,20 +108,27 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-        alignItems: 'center',
+        alignItems: 'left',
         textAlign: 'center',
         width: '100%',
+    },
+    ActivityIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 80
     },
     posteos: {
         width: '100%',
         marginTop: 20,
+        height: '100%',
     },
     button: {
         backgroundColor: '#00ADB5',
         padding: 10,
         margin: 10,
         borderRadius: 5,
-        position: 'absolute',
+        position: 'relative',
         bottom: 0,
     },
     buttonPost: {

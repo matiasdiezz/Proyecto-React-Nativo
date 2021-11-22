@@ -27,96 +27,98 @@ componentDidMount() {
 
     
 dislike() {
-        let post = db.collection("posts").doc(this.props.data.id);
+    let post = db.collection("posts").doc(this.props.data.id);
+    post.update({
+        likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
+    })
+    .then(() => {
+        this.setState({
+            likes: this.state.likes - 1,
+            liked: false
+        })
+    })
+    .catch((error) => {
+        console.error("Error updating document: ", error);
+    });
+}
 
-        post.update({
-            likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
+likeCounter() {
+    let likes = this.props.data.data.likes;
+    if (likes) {
+        this.setState({
+            likes: likes.length
         })
-        .then(() => {
-            this.setState({
-                likes: this.state.likes - 1,
-                liked: false
-            })
+    }
+    if(likes.includes(auth.currentUser.email)) {    
+        this.setState({
+            liked: true
         })
-        .catch((error) => {
-            console.error("Error updating document: ", error);
-        });
     }
- likeCounter() {
-        let likes = this.props.data.data.likes;
-        if (likes) {
-            this.setState({
-                likes: likes.length
-            })
-        }
-        if(likes.includes(auth.currentUser.email)) {    
-            this.setState({
-                liked: true
-            })
-        }
-    }
- like() {
-        let post = db.collection("posts").doc(this.props.data.id);
+}
 
-        post.update({
-            likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.displayName)
+like() {
+    let post = db.collection("posts").doc(this.props.data.id);
+
+    post.update({
+        likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
+    })
+    .then(() => {
+        this.setState({
+            likes: this.state.likes + 1,
+            liked: true
         })
-        .then(() => {
-            this.setState({
-                likes: this.state.likes + 1,
-                liked: true
-            })
-        })
-        .catch((error) => {
-            console.error("Error updating document: ", error); 
-        });
-    }
-    openModal() {
+    })
+    .catch((error) => {
+        console.error("Error updating document: ", error); 
+    });
+}
+
+openModal() {
         this.setState({
             showModal: true
         })
-    }
+}
 
-    closeModal() {
+closeModal() {
         this.setState({
             showModal: false
         })
+}
+
+guardarComentario(){
+    console.log('Guardando comentario...');
+    let oneComment = {
+        createdAt: Date.now(),
+        author: auth.currentUser.displayName,
+        comment: this.state.comment, 
     }
-
-    guardarComentario(){
-        console.log('Guardando comentario...');
-        let oneComment = {
-            createdAt: Date.now(),
-            author: auth.currentUser.displayName,
-            comment: this.state.comment, 
-        }
-         db.collection('posts').doc(this.props.data.id).update({
-           comments:firebase.firestore.FieldValue.arrayUnion(oneComment)
+        db.collection('posts').doc(this.props.data.id).update({
+        comments:firebase.firestore.FieldValue.arrayUnion(oneComment)
+    })
+    .then(()=>{
+        this.setState({
+            showModal:false,
+            comment:''
         })
-        .then(()=>{
-            this.setState({
-                showModal:false,
-                comment:''
-            })
-        }
-        )}
+    }
+)}
 
-        showModal() {
-            this.setState({
-                showModal: true
-            })
-        }
+showModal() {
+    this.setState({
+        showModal: true
+    })
+}
 
-        hideModal() {
-            this.setState({
-                showModal: false
-            })
-        }
-        borrarPost = (id) => {
-            db.collection('posts').doc(id).delete()
-           
-        }
-        
+hideModal() {
+    this.setState({
+        showModal: false
+    })
+}
+borrarPost = (id) => {
+    db.collection('posts').doc(id).delete()
+    
+}
+
 
        
 

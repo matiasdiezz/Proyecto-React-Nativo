@@ -6,29 +6,33 @@ import Posteo from "../components/Posteo";
 
 
 class Search extends Component {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            posteos: [],
-            search: "",
-        };
-    }
+constructor(props){
+    super(props);
+    this.state = {
+        posteos: [],
+        search: "",
+    };
+}
     
-    getPosteos(){
-        db.collection('posts').where('user','==', this.state.search).limit(5).onSnapshot(
-            docs =>{
-             let posts = [];
-             docs.forEach( doc => {
-                posts.push({
-                id: doc.id,
-                data: doc.data()
-                })
-            this.setState({
-            posteos: posts,
-            })})}
-        )
-    }
+getPosteos(){
+    db.collection('posts').where('user','==', this.state.search).limit(5).onSnapshot(
+        docs =>{
+            let posts = [];
+            docs.forEach( doc => {
+            posts.push({
+            id: doc.id,
+            data: doc.data()
+            })
+        this.setState({
+        posteos: posts,
+        })})}
+    )
+}
+
+componentWillUnmount(){
+    this.getPosteos();
+}
+
 
 
     render() {
@@ -45,7 +49,7 @@ class Search extends Component {
                 style={styles.button}>
                 <Text style={styles.textButton}>Search</Text>
                 </TouchableOpacity>
-                {this.state.posteos.length > 0 ? (
+                {!this.state.posteos.length == 0 ? (
                     <FlatList
                     style={styles.list} 
                     data={this.state.posteos}

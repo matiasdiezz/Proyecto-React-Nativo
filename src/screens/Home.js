@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import {View, StyleSheet, Text, Button, TouchableOpacity, FlatList} from 'react-native';
+import {View, StyleSheet, Text, Button, TouchableOpacity, FlatList, ActivityIndicator} from 'react-native';
 import { auth,db } from '../firebase/config';
 import Posteo from '../components/Posteo';
 
 
 
 class Home extends Component {
-
-    
     constructor(props) {
         super(props);
         this.state = {
@@ -76,6 +74,7 @@ class Home extends Component {
     render() {
         return (
             <>
+            {!this.state.loading ? (
             <View style={styles.container}>
 
             {/* Botones del Home */}
@@ -121,9 +120,14 @@ class Home extends Component {
                 <Text style={styles.textButton}>Ver más</Text>
             </TouchableOpacity>
             ) : (
-            <></>
+                <></>
             )}
             </View>
+            ):(
+            <View style={styles.container}>
+            <ActivityIndicator size="large" color="#0000ff"  style={styles.container}/>
+            </View>
+            )}
             </>
         );
     }
