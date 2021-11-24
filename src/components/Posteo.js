@@ -103,17 +103,6 @@ guardarComentario(){
     }
 )}
 
-showModal() {
-    this.setState({
-        showModal: true
-    })
-}
-
-hideModal() {
-    this.setState({
-        showModal: false
-    })
-}
 borrarPost = (id) => {
     db.collection('posts').doc(id).delete()
     
@@ -161,7 +150,7 @@ borrarPost = (id) => {
                     animationType='slide'
                     transparent={false}
                 >   
-                    <TouchableOpacity onPress={()=>this.hideModal()}>
+                    <TouchableOpacity onPress={()=>this.closeModal()}>
                         <Text style={styles.closeButton}>X</Text>
                     </TouchableOpacity> 
                     {this.props.data.data.comments.length > 0 ?

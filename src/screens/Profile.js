@@ -10,6 +10,8 @@ class Profile extends Component {
         this.state = {
             posteos: [],
             loading: true,
+            lastVisible: this.props.userData.metadata.lastSignInTime,
+            showCamera: false,
         };
     }
 
@@ -29,12 +31,16 @@ class Profile extends Component {
              this.setState({
             posteos: posts,
             loading: false
-             })})}
+             })
+            })}
         )
     }
 
-    componentDidMount(){
-        this.showposts();
+    componentDidMount(){{
+        this.showposts()}   
+        this.setState({
+        loading: false, 
+        })
     }
 
     borrarPost = (id) => {
@@ -42,29 +48,29 @@ class Profile extends Component {
         this.showposts();
 
     }
- 
-    
 
-
-        
-            
     render() {
+        console.log(this.props.userData);
         return (
             <>
              {!this.state.loading ? (
             <View style={styles.container}>
                 {/* Datos del usuario */}
-
+            
+                <View style={styles.datos}>
+                {this.props.userData.photoURL != null ? (
+                    <Image style={styles.avatar} source={{uri: this.props.userData.photoURL}} />
+                    ) : (
+                    <Image style={styles.avatarRandom} source={require( '../../assets/img/user.png')}/>
+                )}
                 <Text style={styles.userData}>🤖 {this.props.userData.displayName} </Text>
+                </View>
                 <Text style={styles.userDataSecundaria}>📩: {this.props.userData.email} </Text>
-                <Text style={styles.userDataSecundaria}>🖥: {this.props.userData.metadata.lastSignInTime} </Text>
+                <Text style={styles.userDataSecundaria}>🖥:  {this.state.lastVisible} </Text>
                 <Text style={styles.userDataSecundaria}>Cantidad de posteos: {this.state.posteos.length} </Text>
 
                 {/* Lista de Posteos del usuario */}
 
-                <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
-                    <Text style={styles.textButton}>Log out</Text>
-                </TouchableOpacity>  
                 {this.state.posteos.length > 0 ? (
                 <View style={styles.posteos}>
                     <FlatList
@@ -93,6 +99,9 @@ class Profile extends Component {
                 </>
                 )}
                 
+                <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
+                    <Text style={styles.textButton}>Log out</Text>
+                </TouchableOpacity>  
             </View>
             ) : (
             <View style={styles.container}>
@@ -112,6 +121,39 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '100%',
     },
+    datos: {
+        backgroundColor: 'white',
+        alignItems: 'center',
+        textAlign: 'center',
+        width: '100%',
+        
+    },
+    avatar: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: '#00ADB5',
+        marginBottom: 10,
+        marginTop: 10,
+        shadowColor: '#00ADB5',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 1.8,
+        shadowRadius: 2,
+    },
+    avatarRandom: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: '#00ADB5',
+        margin:10,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 1.8,
+        shadowRadius: 2,
+    },
+
     ActivityIndicator: {
         flex: 1,
         justifyContent: 'center',
@@ -177,5 +219,3 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 })
-
-

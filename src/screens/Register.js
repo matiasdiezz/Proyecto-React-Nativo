@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {View, StyleSheet, Text, TextInput, TouchableOpacity, Image} from 'react-native';
+import Mycamera from '../components/MyCamera';
+import { auth,db } from '../firebase/config';
 
 
 class Register extends Component {
@@ -9,11 +11,26 @@ class Register extends Component {
           email: "",
           password: "",
           username: "",
+          url: "",
+          showCamera: false,
         };
     }
+    showCamera = () => {
+      this.setState({
+          showCamera: true,
+      })
+  }
+  onImageUpload(url){
+    this.setState({
+        url: url,
+        showCamera: false,
+    })
+}
+
     
     render() {
         return (
+          this.state.showCamera ? <Mycamera onImageUpload={(url)=>this.onImageUpload(url)}/> :
             <View style={styles.container}>
               <Text style={styles.title}>Crea tu cuenta para poder ingresar</Text>
               <Image style={styles.Foto} source={require('../../assets/img/Register.png')} />
@@ -38,10 +55,36 @@ class Register extends Component {
                 secureTextEntry={true}
                 style={styles.input}
               />
+              
               <Text>Rellene el formulario para poder Registrarse</Text>
+              
+              {this.state.url ? 
+                <View style={styles.inline}>
+
+                {/* Botones del Formulario */}
+
+                    <TouchableOpacity
+                    style={styles.buttonActive}
+                    disabled={true}>
+                        <Text style={styles.textButton}>
+                            Subir Foto
+                        </Text>                        
+                    </TouchableOpacity>
+                    <Image  style={styles.icon} source={ { uri:"https://img.icons8.com/external-bearicons-outline-color-bearicons/64/000000/external-verified-reputation-bearicons-outline-color-bearicons.png"}}/>
+                </View>
+                :
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={()=> this.showCamera()}
+                >
+                    <Text style={styles.textButton}>
+                        Subir Foto
+                    </Text>
+                </TouchableOpacity>
+                }
               {/* Register button */}
               {this.state.email.length > 0 && this.state.password.length > 0 && this.state.username.length > 0 ?
-                <TouchableOpacity style={styles.button}  onPress={() => this.props.register(this.state.email, this.state.password, this.state.username)}>
+                <TouchableOpacity style={styles.button}  onPress={() => this.props.register(this.state.email, this.state.password, this.state.username, this.state.url)}>
                   <Text style={styles.textButton}>Registrarse</Text>
                 </TouchableOpacity>
                 :
@@ -67,6 +110,25 @@ const styles = StyleSheet.create({
       color: '#303841',
       fontWeight: 'bold',
     },
+    buttonActive: {
+      backgroundColor: '#00ADB5',
+      padding: 10,
+      margin: 10,
+      borderRadius: 5,
+      width:'50%',
+      opacity: 0.5,
+  },  
+  icon: {
+    width: 30,
+    height: 30,
+    marginLeft: 10,
+    marginHorizontal: 10,
+},
+inline: {
+  alignItems: 'center',
+  flexDirection: 'row',
+},
+
     button: {
         backgroundColor: '#00ADB5',
         padding: 10,
@@ -106,3 +168,4 @@ const styles = StyleSheet.create({
 
 
 export default Register;
+

@@ -12,48 +12,71 @@ class Home extends Component {
             posteos: [],
             loading: true,
             limit: 5,
-            verLikes: false
+            verLikes: false,
+            verComments: false
         };
 
     }
 
-    showposts(){
-        db.collection('posts').orderBy(
-            'createdAt', 'desc'
-        ).limit(this.state.limit).onSnapshot(
-            docs =>{
-             let posts = [];
-             docs.forEach( doc => {
+showposts(){
+    db.collection('posts').orderBy(
+        'createdAt', 'desc'
+    ).limit(this.state.limit).onSnapshot(
+        docs =>{
+            let posts = [];
+            docs.forEach( doc => {
+        posts.push({
+        id: doc.id,
+        data: doc.data()
+        })
+            this.setState({
+        posteos: posts,
+        loading: false,
+        verLikes: false,
+        verComments: false
+            })})}
+    )
+}
+
+orderMostLikes(){
+    db.collection('posts').orderBy(
+        'likes', 'desc'
+    ).limit(this.state.limit).onSnapshot(
+        docs =>{
+            let posts = [];
+            docs.forEach( doc => {
             posts.push({
             id: doc.id,
             data: doc.data()
             })
-             this.setState({
+            this.setState({
             posteos: posts,
             loading: false,
-            verLikes: false
-             })})}
-        )
-    }
+            verLikes: true
+            })})}
+    )
+}
 
-    orderMostLikes(){
-        db.collection('posts').orderBy(
-            'likes', 'desc'
-        ).limit(this.state.limit).onSnapshot(
-            docs =>{
-                let posts = [];
-                docs.forEach( doc => {
-                posts.push({
-                id: doc.id,
-                data: doc.data()
-                })
-                this.setState({
-                posteos: posts,
-                loading: false,
-                verLikes: true
-                })})}
-        )
-    }
+orderMostComents(){
+    db.collection('posts').orderBy(
+        'comments', 'desc'
+    ).limit(this.state.limit).onSnapshot(
+        docs =>{
+            let posts = [];
+            docs.forEach( doc => {
+            posts.push({
+            id: doc.id,
+            data: doc.data()
+            })
+            this.setState({
+            posteos: posts,
+            loading: false,
+            verLikes: false,
+            verComments: true
+            })})}
+    )
+}
+
         
 
     verMasPosts(){
@@ -77,56 +100,46 @@ class Home extends Component {
             {!this.state.loading ? (
             <View style={styles.container}>
 
-            {/* Botones del Home */}
+                {/* Botones del Home */}
+            
+                    <View style={styles.header}>
+                        <TouchableOpacity style={styles.buttonLikes} onPress={() => this.showposts()}>
+                            <Text style={styles.textButtonLikes}>
+                                Más Recientes
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonLikes} onPress={() => this.orderMostLikes()}>
+                            <Text style={styles.textButtonLikes}>
+                                Más likeados
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonLikes} onPress={() => this.orderMostComents()}>
+                            <Text style={styles.textButtonLikes}>
+                                Más comentados
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
 
-            {!this.state.verLikes ? (
-                <View style={styles.header}>
-                    <TouchableOpacity style={styles.buttonDisabled} onPress={() => this.showposts()} disabled={true}>
-                        <Text style={styles.textButtonLikes}>
-                            Ver los más Recientes
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonLikes} onPress={() => this.orderMostLikes()}>
-                        <Text style={styles.textButtonLikes}>
-                            Ver los más likeados
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                    ):(
-                <View style={styles.header}>
-                    <TouchableOpacity style={styles.buttonLikes} onPress={() => this.showposts()}>
-                        <Text style={styles.textButtonLikes}>
-                            Ver los más Recientes
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonDisabled} onPress={() => this.orderMostLikes()} disabled={true}>
-                        <Text style={styles.textButtonLikes}>
-                            Ver los más likeados
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+                {/* Lista de Posteos */}
 
-            {/* Lista de Posteos */}
-
-            <FlatList
-            style={styles.list} 
-            data={this.state.posteos}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => <Posteo data={item}/>} 
-            />
-            {!this.state.verLikes ? (
-            <TouchableOpacity  style={styles.button} onPress={() => this.verMasPosts()}>
-                <Text style={styles.textButton}>Ver más</Text>
-            </TouchableOpacity>
-            ) : (
-                <></>
-            )}
+                <FlatList
+                style={styles.list} 
+                data={this.state.posteos}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({item}) => <Posteo data={item}/>} 
+                />
+                {!this.state.verLikes && !this.state.verComments ? (
+                <TouchableOpacity  style={styles.button} onPress={() => this.verMasPosts()}>
+                    <Text style={styles.textButton}>Ver más</Text>
+                </TouchableOpacity>
+                ) : (
+                    <></>
+                )}
             </View>
             ):(
-            <View style={styles.container}>
-            <ActivityIndicator size="large" color="#0000ff"  style={styles.container}/>
-            </View>
+                <View style={styles.container}>
+                    <ActivityIndicator size="large" color="#0000ff"  style={styles.container}/>
+                </View>
             )}
             </>
         );
@@ -156,8 +169,9 @@ const styles = StyleSheet.create({
         padding: 5,
         margin: 10,
         borderRadius: 5,
-        width: '40%',
+        width: '25%',
     },
+
     buttonDisabled: {
         backgroundColor: '#323232',
         padding: 5,
@@ -187,5 +201,4 @@ const styles = StyleSheet.create({
         height: '100%',
     }
 })
-
 

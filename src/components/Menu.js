@@ -20,18 +20,19 @@ class Menu extends Component {
         this.state = {
             logged: false,
             userData: [],
-            errorMessage: null
-
+            errorMessage: null,
         }
     }
-
+    
+    
     //Register
-    register(email, password, username) {
+    register(email, password, username, url) {
         auth.createUserWithEmailAndPassword(email, password)
         .then((response) => {
             console.log(username);
             response.user.updateProfile({
-                displayName: username})
+                displayName: username,
+                photoURL: url})
                 .then(()=>{
                     this.setState({ logged: true})
                 })
@@ -96,7 +97,7 @@ class Menu extends Component {
                 ) : (
                 <Drawer.Navigator>
                     <Drawer.Screen options={{title: 'Login'}} name="Login" component={(screenProps)=><Login login={(email,pass)=>this.login(email,pass)} screenProps={screenProps} errorMessage={this.state.errorMessage}/>} />
-                    <Drawer.Screen options={{title: 'Register'}} name="Register" component={()=><Register register={(email,pass,username)=>this.register(email,pass,username)} />} />
+                    <Drawer.Screen options={{title: 'Register'}} name="Register" component={()=><Register register={(email,pass,username,url)=>this.register(email,pass,username,url)} showCamera={()=>this.showCamera()} />} />
                 </Drawer.Navigator>
                 )}
             </>
