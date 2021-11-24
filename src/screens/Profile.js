@@ -70,7 +70,10 @@ class Profile extends Component {
                 <Text style={styles.userDataSecundaria}>Cantidad de posteos: {this.state.posteos.length} </Text>
 
                 {/* Lista de Posteos del usuario */}
-
+                <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
+                    <Text style={styles.textButton}>Log out</Text>
+                </TouchableOpacity>
+                  
                 {this.state.posteos.length > 0 ? (
                 <View style={styles.posteos}>
                     <FlatList
@@ -99,9 +102,7 @@ class Profile extends Component {
                 </>
                 )}
                 
-                <TouchableOpacity style={styles.button} onPress={() => this.props.logOut()}>
-                    <Text style={styles.textButton}>Log out</Text>
-                </TouchableOpacity>  
+                
             </View>
             ) : (
             <View style={styles.container}>
