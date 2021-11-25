@@ -57,7 +57,7 @@ componentWillUnmount(){
                     renderItem={({item}) => <Posteo data={item}/>} 
                     />
                 ) : (
-                    <Text>No se encontro ningun usuario con posteos</Text>
+                <Text>No se encontro ningun usuario con posteos</Text>
                 )}
             </View>
         )

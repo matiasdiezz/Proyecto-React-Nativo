@@ -9,9 +9,9 @@ class Login extends Component {
       password: ""
     };
 }
-  navigateToRegister = () => {
-    this.props.screenProps.navigation.navigate('Register');
-  }
+navigateToRegister = () => {
+  this.props.screenProps.navigation.navigate('Register');
+}
             render() {
                 return (
               <View 

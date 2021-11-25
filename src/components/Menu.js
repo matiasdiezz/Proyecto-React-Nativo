@@ -29,7 +29,6 @@ class Menu extends Component {
     register(email, password, username, url) {
         auth.createUserWithEmailAndPassword(email, password)
         .then((response) => {
-            console.log(username);
             response.user.updateProfile({
                 displayName: username,
                 photoURL: url})
@@ -46,7 +45,6 @@ class Menu extends Component {
     auth
     .signInWithEmailAndPassword(email, password)
     .then((response) => {
-        console.log(response);
         this.setState({ logged: true,
           userData: response
         })

@@ -185,6 +185,7 @@ borrarPost = (id) => {
             } 
         <Text style={styles.Titulo}>{this.props.data.data.title}</Text>
         <Text style={styles.Descripcion}>{this.props.data.data.description}</Text>
+        <Text style={styles.Descripcion}>Subido por {this.props.data.data.user} el {this.props.data.data.createdAt}</Text>
         {auth.currentUser.displayName == "admin" ?
            
                 <TouchableOpacity style={styles.buttonDelete} onPress={() => this.borrarPost(this.props.data.id)}>

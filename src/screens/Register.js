@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {View, StyleSheet, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import Mycamera from '../components/MyCamera';
-import { auth,db } from '../firebase/config';
 
 
 class Register extends Component {
@@ -15,7 +14,7 @@ class Register extends Component {
           showCamera: false,
         };
     }
-    showCamera = () => {
+  showCamera = () => {
       this.setState({
           showCamera: true,
       })
