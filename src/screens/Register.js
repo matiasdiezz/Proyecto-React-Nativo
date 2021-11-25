@@ -28,13 +28,35 @@ class Register extends Component {
 
     
     render() {
-        return (
-          this.state.showCamera ? <Mycamera onImageUpload={(url)=>this.onImageUpload(url)}/> :
-            <View style={styles.container}>
+      return (
+        this.state.showCamera ? <Mycamera onImageUpload={(url)=>this.onImageUpload(url)}/> :
+        <View style={styles.container}>
               <Text style={styles.title}>Crea tu cuenta para poder ingresar</Text>
               <Image style={styles.Foto} source={require('../../assets/img/Register.png')} />
 
-              {/* Imputs del Register */}
+
+                {/* Botones del Formulario */}
+              {this.state.url ? 
+                <View style={styles.inline}>
+                    <TouchableOpacity
+                    style={styles.buttonActive}
+                    disabled={true}>
+                        <Text style={styles.textButton}>
+                            Subir Foto
+                        </Text>                        
+                    </TouchableOpacity>
+                    <Image  style={styles.icon} source={ { uri:"https://img.icons8.com/external-bearicons-outline-color-bearicons/64/000000/external-verified-reputation-bearicons-outline-color-bearicons.png"}}/>
+                </View>
+                :
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={()=> this.showCamera()}
+                >
+                    <Text style={styles.textButton}>
+                        Subir Foto
+                    </Text>
+                </TouchableOpacity>
+              }
               <TextInput
                 onChangeText={(text) => this.setState({ username: text })}
                 placeholder="username"
@@ -57,30 +79,7 @@ class Register extends Component {
               
               <Text>Rellene el formulario para poder Registrarse</Text>
               
-              {this.state.url ? 
-                <View style={styles.inline}>
-
-                {/* Botones del Formulario */}
-
-                    <TouchableOpacity
-                    style={styles.buttonActive}
-                    disabled={true}>
-                        <Text style={styles.textButton}>
-                            Subir Foto
-                        </Text>                        
-                    </TouchableOpacity>
-                    <Image  style={styles.icon} source={ { uri:"https://img.icons8.com/external-bearicons-outline-color-bearicons/64/000000/external-verified-reputation-bearicons-outline-color-bearicons.png"}}/>
-                </View>
-                :
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={()=> this.showCamera()}
-                >
-                    <Text style={styles.textButton}>
-                        Subir Foto
-                    </Text>
-                </TouchableOpacity>
-                }
+              
               {/* Register button */}
               {this.state.email.length > 0 && this.state.password.length > 0 && this.state.username.length > 0 ?
                 <TouchableOpacity style={styles.button}  onPress={() => this.props.register(this.state.email, this.state.password, this.state.username, this.state.url)}>
